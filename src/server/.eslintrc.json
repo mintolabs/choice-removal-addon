@@ -1,0 +1,31 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "plugins": ["googleappsscript", "prettier"],
+  "env": {
+    "googleappsscript/googleappsscript": true
+  },
+  "globals": {
+    "FormApp": true,
+    "FirestoreApp": true,
+    "OAuth2": true,
+    "FetchApp": true,
+    "HtmlService": true,
+    "global": true,
+    "console": true,
+    "process": true,
+    "moment": true
+  },
+  "rules": {
+    "no-param-reassign": [
+      "error",
+      { "props": true, "ignorePropertyModificationsFor": ["draftState"] }
+    ],
+    "prettier/prettier": "error",
+    "import/prefer-default-export": 0,
+    "semi": [2, "never"],
+    "no-console": 0,
+    "no-unused-expressions": 0
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "timeZone": "America/New_York",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "OAuth2",
+        "libraryId": "1B7FSrk5Zi6L1rSxxTDgDEUsPzlukDsi4KGuTMorsTQHhGBzBkMun4iDF",
+        "version": "34",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "FetchApp",
+        "libraryId": "1sm9V-w8-0i3U4-10N6XyaRjHk5voiuJ1ArKSLo3htOUasB6GcPcIq8Kb",
+        "version": "1",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "FirestoreApp",
+        "libraryId": "1VUSl4b1r1eoNcRWotZM3e87ygkxvXltOgyDZhixqncz9lQ3MjfT1iKFw",
+        "version": "22",
+        "developmentMode": true
+      }
+    ]
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.container.ui",
+    "https://www.googleapis.com/auth/script.scriptapp",
+    "https://www.googleapis.com/auth/script.send_mail",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/forms",
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/userinfo.email"
+  ]
+}
