@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { CircularProgress } from '@material-ui/core'
+import { Button, CircularProgress } from '@material-ui/core'
+import { Refresh } from '@material-ui/icons'
+import { deepPurple } from '@material-ui/core/colors'
 import { createStructuredSelector } from 'reselect'
 import { useSelector, useDispatch } from 'react-redux'
 import { usePromiseTracker } from 'react-promise-tracker'
@@ -21,6 +23,10 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  refreshButton: {
+    marginBottom: '1rem',
+    color: deepPurple[500],
   },
 }))
 
@@ -59,6 +65,17 @@ const Configuration = () => {
   return (
     <div>
       <SlidingMenu />
+
+      <Button
+        variant="outlined"
+        startIcon={<Refresh />}
+        onClick={handleGetSupportedFormQuestions}
+        disabled={promiseInProgress}
+        fullWidth
+        className={classes.refreshButton}
+      >
+        Refresh Question List
+      </Button>
 
       <div className={classes.root}>
         {!supportedQuestions || promiseInProgress ? (
