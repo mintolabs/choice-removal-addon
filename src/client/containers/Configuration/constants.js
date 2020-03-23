@@ -8,3 +8,9 @@
  * Follow this format:
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
+
+export const GET_SUPPORTED_FORM_QUESTIONS = 'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS'
+export const GET_SUPPORTED_FORM_QUESTIONS_SUCCESS =
+  'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS_SUCCESS'
+export const GET_SUPPORTED_FORM_QUESTIONS_ERROR =
+  'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS_ERROR'

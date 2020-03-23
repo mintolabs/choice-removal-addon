@@ -7,4 +7,9 @@ import { initialState } from './reducer'
 
 const selectGlobal = state => state.global || initialState
 
-export { selectGlobal }
+const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.error)
+
+const makeSelectSupportedQuestions = () =>
+  createSelector(selectGlobal, globalState => globalState.selectedQuestions)
+
+export { selectGlobal, makeSelectError, makeSelectSupportedQuestions }

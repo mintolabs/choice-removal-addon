@@ -25,6 +25,22 @@ export const showConfiguration = () => {
   FormApp.getUi().showSidebar(ui)
 }
 
+export const getSupportedFormQuestions = () => {
+  const items = FormApp.getActiveForm().getItems()
+  return items
+    .filter(
+      item =>
+        item.getType() === FormApp.ItemType.MULTIPLE_CHOICE ||
+        item.getType() === FormApp.ItemType.LIST ||
+        item.getType() === FormApp.ItemType.CHECKBOX
+    )
+    .map(item => ({
+      id: item.getId(),
+      title: item.getTitle(),
+      type: item.getType(),
+    }))
+}
+
 /**
  * Responds to a form submission event if an onFormSubmit trigger has been
  * enabled.

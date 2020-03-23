@@ -14,3 +14,27 @@
  *        return { type: YOUR_ACTION_CONSTANT, var: var }
  *    }
  */
+
+import {
+  GET_SUPPORTED_FORM_QUESTIONS,
+  GET_SUPPORTED_FORM_QUESTIONS_SUCCESS,
+  GET_SUPPORTED_FORM_QUESTIONS_ERROR,
+} from './constants'
+
+export const getSupportedFormQuestions = () => ({
+  type: GET_SUPPORTED_FORM_QUESTIONS,
+})
+
+export const getSupportedFormQuestionsSuccess = data => ({
+  type: GET_SUPPORTED_FORM_QUESTIONS_SUCCESS,
+  payload: {
+    data,
+  },
+})
+
+export const getSupportedFormQuestionsError = err => ({
+  type: GET_SUPPORTED_FORM_QUESTIONS_ERROR,
+  payload: {
+    error: err,
+  },
+})
