@@ -10,6 +10,6 @@ const selectGlobal = state => state.global || initialState
 const makeSelectError = () => createSelector(selectGlobal, globalState => globalState.error)
 
 const makeSelectSupportedQuestions = () =>
-  createSelector(selectGlobal, globalState => globalState.selectedQuestions)
+  createSelector(selectGlobal, globalState => globalState.supportedQuestions)
 
 export { selectGlobal, makeSelectError, makeSelectSupportedQuestions }
