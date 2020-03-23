@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Drawer } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import { Drawer, IconButton } from '@material-ui/core'
+import { Menu } from '@material-ui/icons'
 
 const useStyles = makeStyles({
   paperAnchorLeft: {
@@ -25,7 +24,7 @@ const SlidingMenu = () => {
   return (
     <div>
       <IconButton aria-label="menu" onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize="large" />
+        <Menu fontSize="large" />
       </IconButton>
 
       <Drawer
