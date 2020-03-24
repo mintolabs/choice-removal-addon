@@ -1,4 +1,5 @@
 // Use ES6/7 code
+import { adjustFormSubmitTrigger } from './helpers/trigger'
 import { sendReauthorizationRequest } from './helpers/mail'
 
 export const onOpen = e => {
@@ -60,6 +61,8 @@ export const updateConfiguration = (questionId, checked) => {
 
   documentProperties.setProperty('configuration', JSON.stringify(configuration))
 
+  adjustFormSubmitTrigger()
+
   return configuration
 }
 
@@ -72,7 +75,7 @@ export const updateConfiguration = (questionId, checked) => {
  *      https://developers.google.com/apps-script/understanding_events
  * @return {boolean}
  */
-export const respondToFormSubmit = () => {
+export const respondToFormSubmit = e => {
   const authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL)
 
   // Check if the actions of the trigger require authorizations that have not
@@ -89,10 +92,75 @@ export const respondToFormSubmit = () => {
   }
 
   try {
-    console.log('Test from YACE')
+    const form = e.source
+
+    const itemResponses = e.response.getItemResponses()
+    const responses = itemResponses
+      .filter(
+        response =>
+          response.getItem().getType() === FormApp.ItemType.MULTIPLE_CHOICE ||
+          response.getItem().getType() === FormApp.ItemType.LIST ||
+          response.getItem().getType() === FormApp.ItemType.CHECKBOX
+      )
+      .map(response => ({
+        itemId: response.getItem().getId(),
+        itemType: response.getItem().getType(),
+        answer: response.getResponse(), // With multiple choice and list items, the result is String. With checkbox item, the result is String[]
+      }))
+
+    const configuration = getConfiguration()
+
+    if (!configuration) {
+      return true
+    }
+
+    for (let i = 0; i < responses.length; i += 1) {
+      const response = responses[i]
+      const item = form.getItemById(response.itemId)
+
+      if (configuration[response.itemId]) {
+        switch (response.itemType) {
+          case FormApp.ItemType.MULTIPLE_CHOICE:
+            if (item) {
+              const currentChoices = item
+                .asMultipleChoiceItem()
+                .getChoices()
+                .map(choice => choice.getValue())
+              const newChoices = currentChoices.filter(choice => choice !== response.answer)
+              console.log(item.getTitle(), newChoices)
+              item.asMultipleChoiceItem().setChoiceValues(newChoices)
+            }
+            break
+          case FormApp.ItemType.LIST:
+            if (item) {
+              const currentChoices = item
+                .asListItem()
+                .getChoices()
+                .map(choice => choice.getValue())
+              const newChoices = currentChoices.filter(choice => choice !== response.answer)
+              console.log(item.getTitle(), newChoices)
+              item.asListItem().setChoiceValues(newChoices)
+            }
+            break
+          case FormApp.ItemType.CHECKBOX:
+            if (item) {
+              const currentChoices = item
+                .asCheckboxItem()
+                .getChoices()
+                .map(choice => choice.getValue())
+              const newChoices = currentChoices.filter(choice => !response.answer.includes(choice))
+              console.log(item.getTitle(), newChoices)
+              item.asCheckboxItem().setChoiceValues(newChoices)
+            }
+            break
+          default:
+            break
+        }
+      }
+    }
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
   }
 
-  return false
+  return true
 }
