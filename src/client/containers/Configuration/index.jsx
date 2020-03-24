@@ -9,10 +9,11 @@ import { usePromiseTracker } from 'react-promise-tracker'
 
 import { useInjectSaga } from 'utils/injectSaga'
 
+import GlobalStyle from 'components/GlobalStyle'
 import SlidingMenu from 'components/SlidingMenu'
 import Question from 'components/Question'
-import { makeSelectError, makeSelectSupportedQuestions } from './selectors'
-import { getSupportedFormQuestions } from './actions'
+import { makeSelectError, makeSelectSupportedQuestions, makeSelectConfiguration } from './selectors'
+import { getSupportedFormQuestions, getConfiguration, updateConfiguration } from './actions'
 import saga from './saga'
 
 const key = 'global'
@@ -31,8 +32,9 @@ const useStyles = makeStyles(() => ({
 }))
 
 const stateSelector = createStructuredSelector({
-  supportedQuestions: makeSelectSupportedQuestions(),
   error: makeSelectError(),
+  supportedQuestions: makeSelectSupportedQuestions(),
+  configuration: makeSelectConfiguration(),
 })
 
 const Configuration = () => {
@@ -41,7 +43,7 @@ const Configuration = () => {
   const classes = useStyles()
   const [expanded, setExpanded] = useState(false)
 
-  const { supportedQuestions, error } = useSelector(stateSelector)
+  const { error, supportedQuestions, configuration } = useSelector(stateSelector)
 
   const dispatch = useDispatch()
 
@@ -53,6 +55,11 @@ const Configuration = () => {
 
   const handleGetSupportedFormQuestions = async () => {
     dispatch(getSupportedFormQuestions())
+    dispatch(getConfiguration())
+  }
+
+  const handleToggleSwitch = (event, questionId) => {
+    dispatch(updateConfiguration(questionId, event.target.checked))
   }
 
   /**
@@ -67,27 +74,34 @@ const Configuration = () => {
       <SlidingMenu />
 
       <Button
-        variant="outlined"
+        variant="text"
         startIcon={<Refresh />}
         onClick={handleGetSupportedFormQuestions}
         disabled={promiseInProgress}
-        fullWidth
         className={classes.refreshButton}
       >
         Refresh Question List
       </Button>
 
       <div className={classes.root}>
-        {!supportedQuestions || promiseInProgress ? (
+        {!supportedQuestions || !configuration || promiseInProgress ? (
           <CircularProgress />
         ) : (
           <div>
             {supportedQuestions.map(question => (
-              <Question question={question} expanded={expanded} handleChange={handleChange} />
+              <Question
+                question={question}
+                questionConfig={configuration[question.id] || false}
+                expanded={expanded}
+                handleChange={handleChange}
+                toggleSwitch={handleToggleSwitch}
+              />
             ))}
           </div>
         )}
       </div>
+
+      <GlobalStyle />
     </div>
   )
 }

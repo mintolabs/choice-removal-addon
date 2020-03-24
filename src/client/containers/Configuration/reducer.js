@@ -13,10 +13,17 @@ import {
   GET_SUPPORTED_FORM_QUESTIONS,
   GET_SUPPORTED_FORM_QUESTIONS_SUCCESS,
   GET_SUPPORTED_FORM_QUESTIONS_ERROR,
+  GET_CONFIGURATION,
+  GET_CONFIGURATION_SUCCESS,
+  GET_CONFIGURATION_ERROR,
+  UPDATE_CONFIGURATION,
+  UPDATE_CONFIGURATION_SUCCESS,
+  UPDATE_CONFIGURATION_ERROR,
 } from './constants'
 
 export const initialState = {
   supportedQuestions: [],
+  configuration: null,
   error: null,
 }
 
@@ -35,6 +42,32 @@ const reducer = (state = initialState, action) =>
         break
 
       case GET_SUPPORTED_FORM_QUESTIONS_ERROR:
+        draft.error = action.payload.error
+        break
+
+      case GET_CONFIGURATION:
+        draft.error = initialState.error
+        break
+
+      case GET_CONFIGURATION_SUCCESS:
+        draft.configuration = action.payload.data
+        draft.error = initialState.error
+        break
+
+      case GET_CONFIGURATION_ERROR:
+        draft.error = action.payload.error
+        break
+
+      case UPDATE_CONFIGURATION:
+        draft.error = initialState.error
+        break
+
+      case UPDATE_CONFIGURATION_SUCCESS:
+        draft.configuration = action.payload.data
+        draft.error = initialState.error
+        break
+
+      case UPDATE_CONFIGURATION_ERROR:
         draft.error = action.payload.error
         break
     }

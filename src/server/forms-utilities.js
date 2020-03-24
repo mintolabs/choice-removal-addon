@@ -41,6 +41,28 @@ export const getSupportedFormQuestions = () => {
     }))
 }
 
+export const getConfiguration = () => {
+  const documentProperties = PropertiesService.getDocumentProperties()
+  const configurationString = documentProperties.getProperty('configuration')
+
+  const configuration = configurationString ? JSON.parse(configurationString) : null
+
+  return configuration
+}
+
+export const updateConfiguration = (questionId, checked) => {
+  const documentProperties = PropertiesService.getDocumentProperties()
+  const configurationString = documentProperties.getProperty('configuration')
+
+  const configuration = configurationString ? JSON.parse(configurationString) : {}
+
+  configuration[questionId] = checked
+
+  documentProperties.setProperty('configuration', JSON.stringify(configuration))
+
+  return configuration
+}
+
 /**
  * Responds to a form submission event if an onFormSubmit trigger has been
  * enabled.

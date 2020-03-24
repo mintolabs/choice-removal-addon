@@ -12,4 +12,7 @@ const makeSelectError = () => createSelector(selectGlobal, globalState => global
 const makeSelectSupportedQuestions = () =>
   createSelector(selectGlobal, globalState => globalState.supportedQuestions)
 
-export { selectGlobal, makeSelectError, makeSelectSupportedQuestions }
+const makeSelectConfiguration = () =>
+  createSelector(selectGlobal, globalState => globalState.configuration)
+
+export { selectGlobal, makeSelectError, makeSelectSupportedQuestions, makeSelectConfiguration }

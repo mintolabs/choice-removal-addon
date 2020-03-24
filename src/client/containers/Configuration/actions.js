@@ -19,6 +19,12 @@ import {
   GET_SUPPORTED_FORM_QUESTIONS,
   GET_SUPPORTED_FORM_QUESTIONS_SUCCESS,
   GET_SUPPORTED_FORM_QUESTIONS_ERROR,
+  GET_CONFIGURATION,
+  GET_CONFIGURATION_SUCCESS,
+  GET_CONFIGURATION_ERROR,
+  UPDATE_CONFIGURATION,
+  UPDATE_CONFIGURATION_SUCCESS,
+  UPDATE_CONFIGURATION_ERROR,
 } from './constants'
 
 export const getSupportedFormQuestions = () => ({
@@ -34,6 +40,46 @@ export const getSupportedFormQuestionsSuccess = data => ({
 
 export const getSupportedFormQuestionsError = err => ({
   type: GET_SUPPORTED_FORM_QUESTIONS_ERROR,
+  payload: {
+    error: err,
+  },
+})
+
+export const getConfiguration = () => ({
+  type: GET_CONFIGURATION,
+})
+
+export const getConfigurationSuccess = data => ({
+  type: GET_CONFIGURATION_SUCCESS,
+  payload: {
+    data,
+  },
+})
+
+export const getConfigurationError = err => ({
+  type: GET_CONFIGURATION_ERROR,
+  payload: {
+    error: err,
+  },
+})
+
+export const updateConfiguration = (questionId, checked) => ({
+  type: UPDATE_CONFIGURATION,
+  payload: {
+    questionId,
+    checked,
+  },
+})
+
+export const updateConfigurationSuccess = data => ({
+  type: UPDATE_CONFIGURATION_SUCCESS,
+  payload: {
+    data,
+  },
+})
+
+export const updateConfigurationError = err => ({
+  type: UPDATE_CONFIGURATION_ERROR,
   payload: {
     error: err,
   },
