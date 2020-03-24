@@ -24,7 +24,7 @@ const SlidingMenu = () => {
   return (
     <div>
       <IconButton aria-label="menu" onClick={toggleDrawer(true)}>
-        <Menu fontSize="large" />
+        <Menu />
       </IconButton>
 
       <Drawer
