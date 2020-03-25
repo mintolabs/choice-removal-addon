@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "jsx": "react",
+    "paths": {
+      "config/*": ["src/client/config/*"],
+      "containers/*": ["src/client/containers/*"],
+      "components/*": ["src/client/components/*"],
+      "store/*": ["src/client/store/*"],
+      "helpers/*": ["src/client/helpers/*"],
+      "icons/*": ["src/client/icons/*"],
+      "utils/*": ["src/client/utils/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
