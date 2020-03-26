@@ -2,7 +2,11 @@ import { all, call, put, takeLatest } from 'redux-saga/effects'
 
 import serverMethods from 'utils/serverMethods'
 import { promiseTrackerWrapped } from 'utils/promiseTracker'
-import { GET_SUPPORTED_FORM_QUESTIONS, GET_CONFIGURATION, UPDATE_CONFIGURATION } from './constants'
+import {
+  GET_SUPPORTED_FORM_QUESTIONS,
+  GET_CONFIGURATION,
+  UPDATE_CONFIGURATION,
+} from 'containers/Configuration/constants'
 import {
   getSupportedFormQuestionsSuccess,
   getSupportedFormQuestionsError,
@@ -10,7 +14,7 @@ import {
   getConfigurationError,
   updateConfigurationSuccess,
   updateConfigurationError,
-} from './actions'
+} from 'containers/Configuration/actions'
 
 function* getSupportedFormQuestionsSaga() {
   try {

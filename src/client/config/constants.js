@@ -1,3 +1,7 @@
+export const PATHS = {
+  CONFIGURATION: '/',
+}
+
 export const SUPPORTED_QUESTION_TYPES = {
   MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
   LIST: 'LIST',

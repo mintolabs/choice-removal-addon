@@ -1,105 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Button, CircularProgress } from '@material-ui/core'
-import { Refresh } from '@material-ui/icons'
-import { deepPurple } from '@material-ui/core/colors'
-import { createStructuredSelector } from 'reselect'
-import { useSelector, useDispatch } from 'react-redux'
-import { usePromiseTracker } from 'react-promise-tracker'
+import React from 'react'
+import { Redirect, Route, Switch as RouterSwitch } from 'react-router-dom'
 
-import { useInjectSaga } from 'utils/injectSaga'
+import { PATHS } from 'config/constants'
+
+import SlidingMenu from 'components/SlidingMenu'
+import QuestionList from 'containers/QuestionList'
 
 import GlobalStyle from 'components/GlobalStyle'
-import SlidingMenu from 'components/SlidingMenu'
-import Question from 'components/Question'
-import { makeSelectError, makeSelectSupportedQuestions, makeSelectConfiguration } from './selectors'
-import { getSupportedFormQuestions, getConfiguration, updateConfiguration } from './actions'
-import saga from './saga'
-
-const key = 'global'
-
-const useStyles = makeStyles(() => ({
-  root: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  refreshButton: {
-    marginBottom: '1rem',
-    color: deepPurple[500],
-  },
-}))
-
-const stateSelector = createStructuredSelector({
-  error: makeSelectError(),
-  supportedQuestions: makeSelectSupportedQuestions(),
-  configuration: makeSelectConfiguration(),
-})
 
 const Configuration = () => {
-  useInjectSaga({ key, saga })
-
-  const classes = useStyles()
-  const [expanded, setExpanded] = useState(false)
-
-  const { error, supportedQuestions, configuration } = useSelector(stateSelector)
-
-  const dispatch = useDispatch()
-
-  const { promiseInProgress } = usePromiseTracker()
-
-  const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false)
-  }
-
-  const handleGetSupportedFormQuestions = async () => {
-    dispatch(getSupportedFormQuestions())
-    dispatch(getConfiguration())
-  }
-
-  const handleToggleSwitch = (event, questionId) => {
-    dispatch(updateConfiguration(questionId, event.target.checked))
-  }
-
-  /**
-   * Get user data from database
-   */
-  useEffect(() => {
-    handleGetSupportedFormQuestions()
-  }, [])
-
   return (
     <div>
       <SlidingMenu />
 
-      <Button
-        variant="text"
-        startIcon={<Refresh />}
-        onClick={handleGetSupportedFormQuestions}
-        disabled={promiseInProgress}
-        className={classes.refreshButton}
-      >
-        Refresh Question List
-      </Button>
-
-      <div className={classes.root}>
-        {!supportedQuestions || !configuration || promiseInProgress ? (
-          <CircularProgress />
-        ) : (
-          <div>
-            {supportedQuestions.map(question => (
-              <Question
-                question={question}
-                questionConfig={configuration[question.id] || false}
-                expanded={expanded}
-                handleChange={handleChange}
-                toggleSwitch={handleToggleSwitch}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      <Redirect to={PATHS.CONFIGURATION} />
+      <RouterSwitch>
+        <Route path={PATHS.CONFIGURATION} exact render={() => <QuestionList />} />
+      </RouterSwitch>
 
       <GlobalStyle />
     </div>

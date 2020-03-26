@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import Configuration from 'containers/Configuration'
@@ -10,7 +11,9 @@ const store = configureStore(initialState)
 
 render(
   <Provider store={store}>
-    <Configuration />
+    <Router>
+      <Configuration />
+    </Router>
   </Provider>,
   document.getElementById('index')
 )
