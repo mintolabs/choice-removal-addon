@@ -31,6 +31,9 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  refreshButtonContainer: {
+    textAlign: 'center',
+  },
   refreshButton: {
     marginBottom: '1rem',
     color: deepPurple[500],
@@ -77,15 +80,18 @@ const QuestionList = () => {
 
   return (
     <div>
-      <Button
-        variant="text"
-        startIcon={<Refresh />}
-        onClick={handleGetSupportedFormQuestions}
-        disabled={promiseInProgress}
-        className={classes.refreshButton}
-      >
-        Refresh Question List
-      </Button>
+      <div className={classes.refreshButtonContainer}>
+        <Button
+          variant="outlined"
+          startIcon={<Refresh />}
+          aria-label="refresh"
+          onClick={handleGetSupportedFormQuestions}
+          disabled={promiseInProgress}
+          className={classes.refreshButton}
+        >
+          Refresh Question List
+        </Button>
+      </div>
 
       <div className={classes.root}>
         {!supportedQuestions || !configuration || promiseInProgress ? (
