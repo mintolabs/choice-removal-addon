@@ -5,6 +5,7 @@ import { PATHS } from 'config/constants'
 
 import SlidingMenu from 'components/SlidingMenu'
 import QuestionList from 'containers/QuestionList'
+import Help from 'containers/Help'
 
 import GlobalStyle from 'components/GlobalStyle'
 
@@ -13,9 +14,10 @@ const Configuration = () => {
     <div>
       <SlidingMenu />
 
-      <Redirect to={PATHS.CONFIGURATION} />
+      <Redirect to={PATHS.QUESTION_LIST} />
       <RouterSwitch>
-        <Route path={PATHS.CONFIGURATION} exact render={() => <QuestionList />} />
+        <Route path={PATHS.QUESTION_LIST} exact render={() => <QuestionList />} />
+        <Route path={PATHS.HELP} exact component={Help} />
       </RouterSwitch>
 
       <GlobalStyle />

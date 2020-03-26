@@ -1,5 +1,11 @@
 export const PATHS = {
-  CONFIGURATION: '/',
+  QUESTION_LIST: '/',
+  HELP: '/help',
+}
+
+export const TITLES = {
+  QUESTION_LIST: 'Question List',
+  HELP: 'Help',
 }
 
 export const SUPPORTED_QUESTION_TYPES = {
