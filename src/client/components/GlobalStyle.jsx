@@ -8,6 +8,12 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -ms-overflow-style: none; /* Hide scrollbar in IE/Safari */
+  }
+
+  /* Hide scrollbar in Chrome/Opera */
+  body::-webkit-scrollbar {
+    display: none;
   }
 
   body.fontLoaded {
