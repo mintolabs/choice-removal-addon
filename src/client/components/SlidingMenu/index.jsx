@@ -8,6 +8,8 @@ import styled from 'styled-components'
 
 import { PATHS, TITLES } from 'config/constants'
 import Logo from 'components/Logo'
+import Header from 'components/Header'
+import Support from 'components/Support'
 
 const useStyles = makeStyles({
   paperAnchorLeft: {
@@ -23,7 +25,7 @@ const SlidingMenuHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 14px 5px 10px;
+  padding: 4px 14px 4px 10px;
   border-bottom: 1px solid ${grey[500]};
 `
 
@@ -58,9 +60,13 @@ const SlidingMenu = () => {
 
   return (
     <div>
-      <IconButton aria-label="menu" onClick={toggleDrawer(true)}>
-        <Menu />
-      </IconButton>
+      <Header>
+        <IconButton aria-label="menu" onClick={toggleDrawer(true)}>
+          <Menu />
+        </IconButton>
+
+        <Support />
+      </Header>
 
       <Drawer
         anchor="left"
