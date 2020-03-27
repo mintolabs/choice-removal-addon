@@ -3,3 +3,4 @@ dist/
 .clasp.json
 .clasprc.json
 .env
+*serviceAccount.json
