@@ -3,11 +3,14 @@ import { all, call, put, takeLatest } from 'redux-saga/effects'
 import serverMethods from 'utils/serverMethods'
 import { promiseTrackerWrapped } from 'utils/promiseTracker'
 import {
+  GET_CURRENT_USER,
   GET_SUPPORTED_FORM_QUESTIONS,
   GET_CONFIGURATION,
   UPDATE_CONFIGURATION,
 } from 'containers/Configuration/constants'
 import {
+  getCurrentUserSuccess,
+  getCurrentUserError,
   getSupportedFormQuestionsSuccess,
   getSupportedFormQuestionsError,
   getConfigurationSuccess,
@@ -15,6 +18,31 @@ import {
   updateConfigurationSuccess,
   updateConfigurationError,
 } from 'containers/Configuration/actions'
+
+function* getCurrentUserSaga() {
+  const { getCurrentUser, createUser } = serverMethods
+
+  try {
+    const currentUserData = yield call(promiseTrackerWrapped, getCurrentUser)
+    yield put(getCurrentUserSuccess(currentUserData))
+  } catch (err) {
+    try {
+      // User does not exist, create new default user
+      yield call(promiseTrackerWrapped, createUser)
+      yield put(getCurrentUserSuccess())
+    } catch (createUserErr) {
+      yield put(getCurrentUserError(createUserErr))
+    }
+  }
+}
+
+function* watchGetCurrentUser() {
+  // Watches for GET_CURRENT_USER actions and calls getCurrentUserSaga when one comes in.
+  // By using `takeLatest` only the result of the latest API call is applied.
+  // It returns task descriptor (just like fork) so we can continue execution
+  // It will be cancelled automatically on component unmount
+  yield takeLatest(GET_CURRENT_USER, getCurrentUserSaga)
+}
 
 function* getSupportedFormQuestionsSaga() {
   try {
@@ -83,5 +111,10 @@ function* watchUpdateConfiguration() {
  * Root saga manages watcher lifecycle
  */
 export default function* rootSaga() {
-  yield all([watchGetSupportedFormQuestions(), watchGetConfiguration(), watchUpdateConfiguration()])
+  yield all([
+    watchGetCurrentUser(),
+    watchGetSupportedFormQuestions(),
+    watchGetConfiguration(),
+    watchUpdateConfiguration(),
+  ])
 }

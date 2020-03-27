@@ -10,6 +10,9 @@
 import produce from 'immer'
 
 import {
+  GET_CURRENT_USER,
+  GET_CURRENT_USER_SUCCESS,
+  GET_CURRENT_USER_ERROR,
   GET_SUPPORTED_FORM_QUESTIONS,
   GET_SUPPORTED_FORM_QUESTIONS_SUCCESS,
   GET_SUPPORTED_FORM_QUESTIONS_ERROR,
@@ -31,6 +34,18 @@ export const initialState = {
 const reducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case GET_CURRENT_USER:
+        draft.error = initialState.error
+        break
+
+      case GET_CURRENT_USER_SUCCESS:
+        draft.error = initialState.error
+        break
+
+      case GET_CURRENT_USER_ERROR:
+        draft.error = action.payload.error
+        break
+
       case GET_SUPPORTED_FORM_QUESTIONS:
         draft.supportedQuestions = initialState.supportedQuestions
         draft.error = initialState.error

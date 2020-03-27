@@ -16,6 +16,7 @@ import {
   makeSelectConfiguration,
 } from 'containers/Configuration/selectors'
 import {
+  getCurrentUser,
   getSupportedFormQuestions,
   getConfiguration,
   updateConfiguration,
@@ -58,6 +59,10 @@ const QuestionList = () => {
 
   const { promiseInProgress } = usePromiseTracker()
 
+  const handleGetCurrentUser = () => {
+    dispatch(getCurrentUser())
+  }
+
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
   }
@@ -75,6 +80,7 @@ const QuestionList = () => {
    * Get user data from database
    */
   useEffect(() => {
+    handleGetCurrentUser()
     handleGetSupportedFormQuestions()
   }, [])
 

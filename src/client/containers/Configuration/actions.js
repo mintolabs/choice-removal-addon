@@ -16,6 +16,9 @@
  */
 
 import {
+  GET_CURRENT_USER,
+  GET_CURRENT_USER_SUCCESS,
+  GET_CURRENT_USER_ERROR,
   GET_SUPPORTED_FORM_QUESTIONS,
   GET_SUPPORTED_FORM_QUESTIONS_SUCCESS,
   GET_SUPPORTED_FORM_QUESTIONS_ERROR,
@@ -26,6 +29,24 @@ import {
   UPDATE_CONFIGURATION_SUCCESS,
   UPDATE_CONFIGURATION_ERROR,
 } from './constants'
+
+export const getCurrentUser = () => ({
+  type: GET_CURRENT_USER,
+})
+
+export const getCurrentUserSuccess = data => ({
+  type: GET_CURRENT_USER_SUCCESS,
+  payload: {
+    data,
+  },
+})
+
+export const getCurrentUserError = err => ({
+  type: GET_CURRENT_USER_ERROR,
+  payload: {
+    error: err,
+  },
+})
 
 export const getSupportedFormQuestions = () => ({
   type: GET_SUPPORTED_FORM_QUESTIONS,

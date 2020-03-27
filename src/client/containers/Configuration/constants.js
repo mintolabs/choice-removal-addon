@@ -9,6 +9,10 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+export const GET_CURRENT_USER = 'yace/Configuration/GET_CURRENT_USER'
+export const GET_CURRENT_USER_SUCCESS = 'yace/Configuration/GET_CURRENT_USER_SUCCESS'
+export const GET_CURRENT_USER_ERROR = 'yace/Configuration/GET_CURRENT_USER_ERROR'
+
 export const GET_SUPPORTED_FORM_QUESTIONS = 'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS'
 export const GET_SUPPORTED_FORM_QUESTIONS_SUCCESS =
   'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS_SUCCESS'
