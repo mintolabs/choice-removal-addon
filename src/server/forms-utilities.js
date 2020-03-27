@@ -1,7 +1,8 @@
 // Use ES6/7 code
 import { DEFAULT_BACKUP_TEXT } from './config/constants'
 import { adjustFormSubmitTrigger } from './helpers/trigger'
-import { sendReauthorizationRequest } from './helpers/mail'
+import { sendReauthorizationRequest, sendWelcomeEmail } from './helpers/mail'
+import { createUser } from './models/user'
 
 export const onOpen = e => {
   const menu = FormApp.getUi().createAddonMenu()
@@ -18,6 +19,18 @@ export const onOpen = e => {
 
 export const onInstall = e => {
   onOpen(e)
+
+  const email = Session.getEffectiveUser().getEmail()
+
+  console.log(`Started onInstall for user ${email}`)
+
+  // Send welcome email to user
+  sendWelcomeEmail(email)
+
+  // Create user immediately after installing the addon
+  createUser()
+
+  console.log(`Finished onInstall for user ${email}`)
 }
 
 export const showConfiguration = () => {
