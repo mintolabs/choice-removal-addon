@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -19,6 +19,19 @@ import {
 import { deepPurple, grey } from '@material-ui/core/colors'
 
 import { SUPPORTED_QUESTION_TYPES } from 'config/constants'
+
+const PurpleSwitch = withStyles({
+  switchBase: {
+    '&$checked': {
+      color: deepPurple[500],
+    },
+    '&$checked + $track': {
+      backgroundColor: deepPurple[500],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch)
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -96,7 +109,7 @@ const Question = props => {
         <Typography className={classes.fullQuestionTitle}>Title: {question.title}</Typography>
         <FormControlLabel
           control={
-            <Switch
+            <PurpleSwitch
               checked={questionConfig}
               name={`switch-${question.id}`}
               color="primary"
