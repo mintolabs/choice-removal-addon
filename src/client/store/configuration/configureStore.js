@@ -31,7 +31,7 @@ export default function configureStore(initialState = {}) {
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions)
 
   let middlewares
-  if (process.env.CUSTOM_ENV === 'production') {
+  if (process.env.ENVIRONMENT === 'production') {
     middlewares = [sagaMiddleware]
   } else {
     middlewares = [sagaMiddleware, logger]

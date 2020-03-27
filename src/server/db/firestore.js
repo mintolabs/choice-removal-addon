@@ -3,7 +3,7 @@ import firestoreCredentialsDev from '../config/yace-bound-firestore-serviceAccou
 
 let firestoreCredentials
 
-if (process.env.CUSTOM_ENV === 'production') {
+if (process.env.ENVIRONMENT === 'production') {
   firestoreCredentials = firestoreCredentialsProd
 } else {
   firestoreCredentials = firestoreCredentialsDev
