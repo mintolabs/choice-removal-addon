@@ -1,4 +1,5 @@
 // Use ES6/7 code
+import { DEFAULT_BACKUP_TEXT } from './config/constants'
 import { adjustFormSubmitTrigger } from './helpers/trigger'
 import { sendReauthorizationRequest } from './helpers/mail'
 
@@ -127,8 +128,12 @@ export const respondToFormSubmit = e => {
                 .getChoices()
                 .map(choice => choice.getValue())
               const newChoices = currentChoices.filter(choice => choice !== response.answer)
-              console.log(item.getTitle(), newChoices)
-              item.asMultipleChoiceItem().setChoiceValues(newChoices)
+
+              if (newChoices.length === 0) {
+                item.asMultipleChoiceItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+              } else {
+                item.asMultipleChoiceItem().setChoiceValues(newChoices)
+              }
             }
             break
           case FormApp.ItemType.LIST:
@@ -138,8 +143,12 @@ export const respondToFormSubmit = e => {
                 .getChoices()
                 .map(choice => choice.getValue())
               const newChoices = currentChoices.filter(choice => choice !== response.answer)
-              console.log(item.getTitle(), newChoices)
-              item.asListItem().setChoiceValues(newChoices)
+
+              if (newChoices.length === 0) {
+                item.asListItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+              } else {
+                item.asListItem().setChoiceValues(newChoices)
+              }
             }
             break
           case FormApp.ItemType.CHECKBOX:
@@ -149,8 +158,12 @@ export const respondToFormSubmit = e => {
                 .getChoices()
                 .map(choice => choice.getValue())
               const newChoices = currentChoices.filter(choice => !response.answer.includes(choice))
-              console.log(item.getTitle(), newChoices)
-              item.asCheckboxItem().setChoiceValues(newChoices)
+
+              if (newChoices.length === 0) {
+                item.asCheckboxItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+              } else {
+                item.asCheckboxItem().setChoiceValues(newChoices)
+              }
             }
             break
           default:
