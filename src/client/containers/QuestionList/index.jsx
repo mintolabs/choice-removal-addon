@@ -100,19 +100,24 @@ const QuestionList = () => {
       </div>
 
       <div className={classes.root}>
-        {!supportedQuestions || !configuration || promiseInProgress ? (
+        {!supportedQuestions || configuration === undefined || promiseInProgress ? (
           <CircularProgress />
         ) : (
           <div>
-            {supportedQuestions.map(question => (
-              <Question
-                question={question}
-                questionConfig={configuration[question.id] || false}
-                expanded={expanded}
-                handleChange={handleChange}
-                toggleSwitch={handleToggleSwitch}
-              />
-            ))}
+            {supportedQuestions.map(question => {
+              const questionConfig =
+                configuration && configuration[question.id] ? configuration[question.id] : false
+
+              return (
+                <Question
+                  question={question}
+                  questionConfig={questionConfig}
+                  expanded={expanded}
+                  handleChange={handleChange}
+                  toggleSwitch={handleToggleSwitch}
+                />
+              )
+            })}
           </div>
         )}
       </div>
