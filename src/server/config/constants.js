@@ -14,3 +14,10 @@ export const USER_STATUSES = {
 }
 
 export const DEFAULT_BACKUP_TEXT = 'No options left'
+
+export const SUPPORT_EMAIL = 'yaceteam@gmail.com'
+
+export const EMAIL_TEXTS = {
+  WELCOME_EMAIL_SUBJECT:
+    'Quick steps to manage your appointment slots in 2 minutes - Yet Another Choice Eliminator',
+}

@@ -1,3 +1,5 @@
+import { SUPPORT_EMAIL, EMAIL_TEXTS } from '../config/constants'
+
 /**
  * Called when the user needs to reauthorize. Sends the user of the
  * add-on an email explaining the need to reauthorize and provides
@@ -26,5 +28,21 @@ export const sendReauthorizationRequest = () => {
       )
     }
     settings.setProperty('lastAuthEmailDate', today)
+  }
+}
+
+/**
+ * Send welcome email to users using their own Gmail
+ */
+export const sendWelcomeEmail = userEmail => {
+  if (MailApp.getRemainingDailyQuota() > 0) {
+    const template = HtmlService.createTemplateFromFile('WelcomeEmail')
+
+    const message = template.evaluate()
+    MailApp.sendEmail(userEmail, EMAIL_TEXTS.WELCOME_EMAIL_SUBJECT, message.getContent(), {
+      name: process.env.ADDON_NAME,
+      htmlBody: message.getContent(),
+      replyTo: SUPPORT_EMAIL,
+    })
   }
 }
