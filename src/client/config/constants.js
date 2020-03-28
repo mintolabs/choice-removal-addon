@@ -23,4 +23,5 @@ export const URLS = {
 
 export const PREFIXES = {
   QUESTION_ID: 'yace_question_',
+  OWNER: 'owner',
 }

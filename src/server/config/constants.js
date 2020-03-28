@@ -24,4 +24,5 @@ export const EMAIL_TEXTS = {
 
 export const PREFIXES = {
   QUESTION_ID: 'yace_question_',
+  OWNER: 'owner',
 }

@@ -70,11 +70,34 @@ export const getConfiguration = () => {
   return configuration
 }
 
+function showAlert(owner) {
+  const ui = FormApp.getUi()
+
+  ui.alert(
+    'Only the first user who configured these settings can change it',
+    `Please ask ${owner} to modify these settings`,
+    ui.ButtonSet.OK
+  )
+}
+
 export const updateConfiguration = (questionId, checked) => {
   const documentProperties = PropertiesService.getDocumentProperties()
+  const properties = documentProperties.getProperties()
+  const owner = properties[PREFIXES.OWNER]
+  const userEmail = Session.getEffectiveUser().getEmail()
+
+  // Prevent users who are not the owner to modify the configuration
+  // This will prevent duplicate form trigger
+  if (owner && owner !== userEmail) {
+    return showAlert(owner)
+  }
+
+  if (!owner) {
+    documentProperties.setProperty(PREFIXES.OWNER, Session.getEffectiveUser().getEmail())
+  }
 
   const key = `${PREFIXES.QUESTION_ID}${questionId}`
-  const configurationString = documentProperties.getProperty(key)
+  const configurationString = properties[key]
   const configuration = configurationString ? JSON.parse(configurationString) : {}
 
   configuration.enabled = checked
