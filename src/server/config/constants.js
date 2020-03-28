@@ -21,3 +21,7 @@ export const EMAIL_TEXTS = {
   WELCOME_EMAIL_SUBJECT:
     'Quick steps to manage your appointment slots in 2 minutes - Yet Another Choice Eliminator',
 }
+
+export const PREFIXES = {
+  QUESTION_ID: 'yace_question_',
+}

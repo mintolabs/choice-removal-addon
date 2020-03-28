@@ -1,5 +1,5 @@
 // Use ES6/7 code
-import { DEFAULT_BACKUP_TEXT } from './config/constants'
+import { DEFAULT_BACKUP_TEXT, PREFIXES } from './config/constants'
 import { adjustFormSubmitTrigger } from './helpers/trigger'
 import { sendReauthorizationRequest, sendWelcomeEmail } from './helpers/mail'
 import { createUser } from './models/user'
@@ -58,26 +58,32 @@ export const getSupportedFormQuestions = () => {
 
 export const getConfiguration = () => {
   const documentProperties = PropertiesService.getDocumentProperties()
-  const configurationString = documentProperties.getProperty('configuration')
+  const properties = documentProperties.getProperties()
+  const configuration = {}
 
-  const configuration = configurationString ? JSON.parse(configurationString) : null
+  Object.keys(properties).forEach(key => {
+    if (key.includes(PREFIXES.QUESTION_ID)) {
+      configuration[key] = JSON.parse(properties[key])
+    }
+  })
 
   return configuration
 }
 
 export const updateConfiguration = (questionId, checked) => {
   const documentProperties = PropertiesService.getDocumentProperties()
-  const configurationString = documentProperties.getProperty('configuration')
 
+  const key = `${PREFIXES.QUESTION_ID}${questionId}`
+  const configurationString = documentProperties.getProperty(key)
   const configuration = configurationString ? JSON.parse(configurationString) : {}
 
-  configuration[questionId] = checked
+  configuration.enabled = checked
 
-  documentProperties.setProperty('configuration', JSON.stringify(configuration))
+  documentProperties.setProperty(key, JSON.stringify(configuration))
 
   adjustFormSubmitTrigger()
 
-  return configuration
+  return getConfiguration()
 }
 
 /**
@@ -131,8 +137,9 @@ export const respondToFormSubmit = e => {
     for (let i = 0; i < responses.length; i += 1) {
       const response = responses[i]
       const item = form.getItemById(response.itemId)
+      const questionConfigKey = `${PREFIXES.QUESTION_ID}${response.itemId}`
 
-      if (configuration[response.itemId]) {
+      if (configuration[questionConfigKey] && configuration[questionConfigKey].enabled) {
         switch (response.itemType) {
           case FormApp.ItemType.MULTIPLE_CHOICE:
             if (item) {

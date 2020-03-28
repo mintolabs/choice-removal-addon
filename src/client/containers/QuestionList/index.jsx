@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { usePromiseTracker } from 'react-promise-tracker'
 
 import { useInjectSaga } from 'utils/injectSaga'
-
+import { PREFIXES } from 'config/constants'
 import Question from 'components/Question'
 import {
   makeSelectError,
@@ -105,8 +105,12 @@ const QuestionList = () => {
         ) : (
           <div>
             {supportedQuestions.map(question => {
-              const questionConfig =
-                configuration && configuration[question.id] ? configuration[question.id] : false
+              const questionConfigKey = `${PREFIXES.QUESTION_ID}${question.id}`
+              const questionConfig = !!(
+                configuration &&
+                configuration[questionConfigKey] &&
+                configuration[questionConfigKey].enabled
+              )
 
               return (
                 <Question

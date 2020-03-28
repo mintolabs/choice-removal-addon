@@ -20,3 +20,7 @@ export const URLS = {
     'https://docs.google.com/forms/d/e/1FAIpQLSeU5FrtO-uC8FDf-08hQo3bEezIx616j6PYTcqxXYd8DkLMAw/viewform',
   FAQ_URL: 'https://yace.jetbeaver.com/faq',
 }
+
+export const PREFIXES = {
+  QUESTION_ID: 'yace_question_',
+}
