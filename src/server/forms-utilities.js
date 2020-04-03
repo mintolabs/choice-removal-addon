@@ -1,8 +1,8 @@
 // Use ES6/7 code
 import { DEFAULT_BACKUP_TEXT, PREFIXES } from './config/constants'
-import { adjustFormSubmitTrigger } from './helpers/trigger'
 import { sendReauthorizationRequest, sendWelcomeEmail } from './helpers/mail'
 import { createUser } from './models/user'
+import { getConfiguration } from './models/configuration'
 
 export const onOpen = e => {
   const menu = FormApp.getUi().createAddonMenu()
@@ -56,57 +56,90 @@ export const getSupportedFormQuestions = () => {
     }))
 }
 
-export const getConfiguration = () => {
-  const documentProperties = PropertiesService.getDocumentProperties()
-  const properties = documentProperties.getProperties()
-  const configuration = {}
+export const handleMultipleChoiceQuestion = (item, answer, configuration, questionConfigKey) => {
+  if (!item) {
+    return
+  }
 
-  Object.keys(properties).forEach(key => {
-    if (key.includes(PREFIXES.QUESTION_ID)) {
-      configuration[key] = JSON.parse(properties[key])
+  const choiceTotal = configuration[questionConfigKey].choices[answer].total
+  const choiceSelected = configuration[questionConfigKey].choices[answer].selected
+  if (
+    configuration[questionConfigKey].choices &&
+    configuration[questionConfigKey].choices[answer] &&
+    choiceSelected >= choiceTotal - 1
+  ) {
+    const currentChoices = item
+      .asMultipleChoiceItem()
+      .getChoices()
+      .map(choice => choice.getValue())
+    const newChoices = currentChoices.filter(choice => choice !== answer)
+
+    if (newChoices.length === 0) {
+      item.asMultipleChoiceItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+    } else {
+      item.asMultipleChoiceItem().setChoiceValues(newChoices)
+    }
+  } else {
+    // Add 1 to selected here
+  }
+}
+
+export const handleListQuestion = (item, answer, configuration, questionConfigKey) => {
+  if (!item) {
+    return
+  }
+
+  const choiceTotal = configuration[questionConfigKey].choices[answer].total
+  const choiceSelected = configuration[questionConfigKey].choices[answer].selected
+
+  if (
+    configuration[questionConfigKey].choices &&
+    configuration[questionConfigKey].choices[answer] &&
+    choiceSelected >= choiceTotal - 1
+  ) {
+    const currentChoices = item
+      .asListItem()
+      .getChoices()
+      .map(choice => choice.getValue())
+    const newChoices = currentChoices.filter(choice => choice !== answer)
+
+    if (newChoices.length === 0) {
+      item.asListItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+    } else {
+      item.asListItem().setChoiceValues(newChoices)
+    }
+  } else {
+    // Add 1 to selected here
+  }
+}
+
+export const handleCheckboxQuestion = (item, answersArray, configuration, questionConfigKey) => {
+  if (!item) {
+    return
+  }
+
+  const removeItems = []
+
+  answersArray.forEach(answer => {
+    const choiceTotal = configuration[questionConfigKey].choices[answer].total
+    const choiceSelected = configuration[questionConfigKey].choices[answer].selected
+
+    if (choiceSelected >= choiceTotal - 1) {
+      removeItems.push(answer)
     }
   })
 
-  return configuration
-}
+  const currentChoices = item
+    .asCheckboxItem()
+    .getChoices()
+    .map(choice => choice.getValue())
+  const newChoices = currentChoices.filter(choice => !removeItems.includes(choice))
 
-function showAlert(owner) {
-  const ui = FormApp.getUi()
-
-  ui.alert(
-    'Only the first user who configured these settings can change it',
-    `Please ask ${owner} to modify these settings`,
-    ui.ButtonSet.OK
-  )
-}
-
-export const updateConfiguration = (questionId, checked) => {
-  const documentProperties = PropertiesService.getDocumentProperties()
-  const properties = documentProperties.getProperties()
-  const owner = properties[PREFIXES.OWNER]
-  const userEmail = Session.getEffectiveUser().getEmail()
-
-  // Prevent users who are not the owner to modify the configuration
-  // This will prevent duplicate form trigger
-  if (owner && owner !== userEmail) {
-    return showAlert(owner)
+  if (newChoices.length === 0) {
+    item.asCheckboxItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+  } else {
+    item.asCheckboxItem().setChoiceValues(newChoices)
   }
-
-  if (!owner) {
-    documentProperties.setProperty(PREFIXES.OWNER, Session.getEffectiveUser().getEmail())
-  }
-
-  const key = `${PREFIXES.QUESTION_ID}${questionId}`
-  const configurationString = properties[key]
-  const configuration = configurationString ? JSON.parse(configurationString) : {}
-
-  configuration.enabled = checked
-
-  documentProperties.setProperty(key, JSON.stringify(configuration))
-
-  adjustFormSubmitTrigger()
-
-  return getConfiguration()
 }
 
 /**
@@ -165,49 +198,13 @@ export const respondToFormSubmit = e => {
       if (configuration[questionConfigKey] && configuration[questionConfigKey].enabled) {
         switch (response.itemType) {
           case FormApp.ItemType.MULTIPLE_CHOICE:
-            if (item) {
-              const currentChoices = item
-                .asMultipleChoiceItem()
-                .getChoices()
-                .map(choice => choice.getValue())
-              const newChoices = currentChoices.filter(choice => choice !== response.answer)
-
-              if (newChoices.length === 0) {
-                item.asMultipleChoiceItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
-              } else {
-                item.asMultipleChoiceItem().setChoiceValues(newChoices)
-              }
-            }
+            handleMultipleChoiceQuestion(item, response.answer, configuration, questionConfigKey)
             break
           case FormApp.ItemType.LIST:
-            if (item) {
-              const currentChoices = item
-                .asListItem()
-                .getChoices()
-                .map(choice => choice.getValue())
-              const newChoices = currentChoices.filter(choice => choice !== response.answer)
-
-              if (newChoices.length === 0) {
-                item.asListItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
-              } else {
-                item.asListItem().setChoiceValues(newChoices)
-              }
-            }
+            handleListQuestion(item, response.answer, configuration, questionConfigKey)
             break
           case FormApp.ItemType.CHECKBOX:
-            if (item) {
-              const currentChoices = item
-                .asCheckboxItem()
-                .getChoices()
-                .map(choice => choice.getValue())
-              const newChoices = currentChoices.filter(choice => !response.answer.includes(choice))
-
-              if (newChoices.length === 0) {
-                item.asCheckboxItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
-              } else {
-                item.asCheckboxItem().setChoiceValues(newChoices)
-              }
-            }
+            handleCheckboxQuestion(item, response.answer, configuration, questionConfigKey)
             break
           default:
             break
