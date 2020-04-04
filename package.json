@@ -1,7 +1,7 @@
 {
   "name": "yace-addon",
   "version": "0.0.1",
-  "description": "Yet Another Choice Eliminator",
+  "description": "Choice Removal",
   "scripts": {
     "test": "test",
     "login": "clasp login",

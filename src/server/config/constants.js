@@ -19,7 +19,7 @@ export const SUPPORT_EMAIL = 'yaceteam@gmail.com'
 
 export const EMAIL_TEXTS = {
   WELCOME_EMAIL_SUBJECT:
-    'Quick steps to manage your appointment slots in 2 minutes - Yet Another Choice Eliminator',
+    'Quick steps to manage your appointment slots in 2 minutes - Choice Removal',
 }
 
 export const PREFIXES = {

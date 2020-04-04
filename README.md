@@ -1,4 +1,4 @@
-# Yet Another Choice Eliminator
+# Choice Removal
 
 Private project that extends Google Forms
 
