@@ -7,8 +7,8 @@ Private project that extends Google Forms
 1. Clone the sample project and install dependencies:
 
 ```shell
-git clone https://gitlab.com/piavgh/yace-addon.git
-cd yace-addon
+git clone https://gitlab.com/piavgh/choice-removal-addon.git
+cd choice-removal-addon
 yarn install
 ```
 

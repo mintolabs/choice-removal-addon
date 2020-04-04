@@ -9,20 +9,22 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const GET_CURRENT_USER = 'yace/Configuration/GET_CURRENT_USER'
-export const GET_CURRENT_USER_SUCCESS = 'yace/Configuration/GET_CURRENT_USER_SUCCESS'
-export const GET_CURRENT_USER_ERROR = 'yace/Configuration/GET_CURRENT_USER_ERROR'
+export const GET_CURRENT_USER = 'choice-removal/Configuration/GET_CURRENT_USER'
+export const GET_CURRENT_USER_SUCCESS = 'choice-removal/Configuration/GET_CURRENT_USER_SUCCESS'
+export const GET_CURRENT_USER_ERROR = 'choice-removal/Configuration/GET_CURRENT_USER_ERROR'
 
-export const GET_SUPPORTED_FORM_QUESTIONS = 'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS'
+export const GET_SUPPORTED_FORM_QUESTIONS =
+  'choice-removal/Configuration/GET_SUPPORTED_FORM_QUESTIONS'
 export const GET_SUPPORTED_FORM_QUESTIONS_SUCCESS =
-  'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS_SUCCESS'
+  'choice-removal/Configuration/GET_SUPPORTED_FORM_QUESTIONS_SUCCESS'
 export const GET_SUPPORTED_FORM_QUESTIONS_ERROR =
-  'yace/Configuration/GET_SUPPORTED_FORM_QUESTIONS_ERROR'
+  'choice-removal/Configuration/GET_SUPPORTED_FORM_QUESTIONS_ERROR'
 
-export const GET_CONFIGURATION = 'yace/Configuration/GET_CONFIGURATION'
-export const GET_CONFIGURATION_SUCCESS = 'yace/Configuration/GET_CONFIGURATION_SUCCESS'
-export const GET_CONFIGURATION_ERROR = 'yace/Configuration/GET_CONFIGURATION_ERROR'
+export const GET_CONFIGURATION = 'choice-removal/Configuration/GET_CONFIGURATION'
+export const GET_CONFIGURATION_SUCCESS = 'choice-removal/Configuration/GET_CONFIGURATION_SUCCESS'
+export const GET_CONFIGURATION_ERROR = 'choice-removal/Configuration/GET_CONFIGURATION_ERROR'
 
-export const UPDATE_CONFIGURATION = 'yace/Configuration/UPDATE_CONFIGURATION'
-export const UPDATE_CONFIGURATION_SUCCESS = 'yace/Configuration/UPDATE_CONFIGURATION_SUCCESS'
-export const UPDATE_CONFIGURATION_ERROR = 'yace/Configuration/UPDATE_CONFIGURATION_ERROR'
+export const UPDATE_CONFIGURATION = 'choice-removal/Configuration/UPDATE_CONFIGURATION'
+export const UPDATE_CONFIGURATION_SUCCESS =
+  'choice-removal/Configuration/UPDATE_CONFIGURATION_SUCCESS'
+export const UPDATE_CONFIGURATION_ERROR = 'choice-removal/Configuration/UPDATE_CONFIGURATION_ERROR'
