@@ -15,6 +15,40 @@ export const getConfiguration = () => {
   return configuration
 }
 
+export const getQuestionConfigByKey = key => {
+  const documentProperties = PropertiesService.getDocumentProperties()
+  const config = documentProperties.getProperty(key)
+    ? JSON.parse(documentProperties.getProperty(key))
+    : null
+
+  return config
+}
+
+export const updateQuestionConfigByKey = (key, config) => {
+  const documentProperties = PropertiesService.getDocumentProperties()
+  documentProperties.setProperty(key, JSON.stringify(config))
+}
+
+export const removeQuestionConfigByKey = key => {
+  const documentProperties = PropertiesService.getDocumentProperties()
+  documentProperties.deleteProperty(key)
+}
+
+export const removeChoiceConfig = (key, choice) => {
+  const config = getQuestionConfigByKey(key)
+
+  if (!config) {
+    return
+  }
+
+  if (!config.choices || !config.choices[choice]) {
+    return
+  }
+
+  delete config.choices[choice]
+  updateQuestionConfigByKey(key, config)
+}
+
 function showAlert(owner) {
   const ui = FormApp.getUi()
 

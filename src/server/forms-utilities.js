@@ -2,7 +2,7 @@
 import { DEFAULT_BACKUP_TEXT, PREFIXES } from './config/constants'
 import { sendReauthorizationRequest, sendWelcomeEmail } from './helpers/mail'
 import { createUser } from './models/user'
-import { getConfiguration } from './models/configuration'
+import { getConfiguration, removeChoiceConfig } from './models/configuration'
 
 export const onOpen = e => {
   const menu = FormApp.getUi().createAddonMenu()
@@ -79,6 +79,8 @@ export const handleMultipleChoiceQuestion = (item, answer, configuration, questi
     } else {
       item.asMultipleChoiceItem().setChoiceValues(newChoices)
     }
+
+    removeChoiceConfig(questionConfigKey, answer)
   } else {
     // Add 1 to selected here
   }
@@ -108,6 +110,8 @@ export const handleListQuestion = (item, answer, configuration, questionConfigKe
     } else {
       item.asListItem().setChoiceValues(newChoices)
     }
+
+    removeChoiceConfig(questionConfigKey, answer)
   } else {
     // Add 1 to selected here
   }
