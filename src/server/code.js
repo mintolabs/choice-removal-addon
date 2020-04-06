@@ -16,6 +16,7 @@ global.adjustFormSubmitTrigger = triggerFunctions.adjustFormSubmitTrigger
 /* User Functions */
 global.getCurrentUser = userFunctions.getCurrentUser
 global.getUser = userFunctions.getUser
+global.getUserEmail = userFunctions.getUserEmail
 global.createUser = userFunctions.createUser
 
 /* Configuration Functions */
