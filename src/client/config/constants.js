@@ -1,10 +1,12 @@
 export const PATHS = {
   QUESTION_LIST: '/',
+  SETTINGS: '/settings',
   HELP: '/help',
 }
 
 export const TITLES = {
   QUESTION_LIST: 'Question List',
+  SETTINGS: 'Settings',
   HELP: 'Help',
 }
 
