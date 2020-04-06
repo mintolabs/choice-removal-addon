@@ -53,7 +53,7 @@ const QuestionList = () => {
   const classes = useStyles()
   const [expanded, setExpanded] = useState(false)
 
-  const { error, supportedQuestions, configuration } = useSelector(stateSelector)
+  const { supportedQuestions, configuration } = useSelector(stateSelector)
 
   const dispatch = useDispatch()
 
