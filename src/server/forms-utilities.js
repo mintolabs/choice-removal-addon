@@ -56,6 +56,13 @@ export const getSupportedFormQuestions = () => {
     }))
 }
 
+export const selectBackupText = () => {
+  const documentProperties = PropertiesService.getDocumentProperties()
+  const backupText = documentProperties.getProperty(PREFIXES.BACKUP_TEXT) || DEFAULT_BACKUP_TEXT
+
+  return backupText
+}
+
 export const handleMultipleChoiceQuestion = (item, answer, configuration, questionConfigKey) => {
   if (!item) {
     return
@@ -63,6 +70,7 @@ export const handleMultipleChoiceQuestion = (item, answer, configuration, questi
 
   const choiceTotal = configuration[questionConfigKey].choices[answer].total
   const choiceSelected = configuration[questionConfigKey].choices[answer].selected
+
   if (
     configuration[questionConfigKey].choices &&
     configuration[questionConfigKey].choices[answer] &&
@@ -75,7 +83,8 @@ export const handleMultipleChoiceQuestion = (item, answer, configuration, questi
     const newChoices = currentChoices.filter(choice => choice !== answer)
 
     if (newChoices.length === 0) {
-      item.asMultipleChoiceItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+      const backupText = selectBackupText()
+      item.asMultipleChoiceItem().setChoiceValues([backupText])
     } else {
       item.asMultipleChoiceItem().setChoiceValues(newChoices)
     }
@@ -104,7 +113,8 @@ export const handleListQuestion = (item, answer, configuration, questionConfigKe
     const newChoices = currentChoices.filter(choice => choice !== answer)
 
     if (newChoices.length === 0) {
-      item.asListItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+      const backupText = selectBackupText()
+      item.asListItem().setChoiceValues([backupText])
     } else {
       item.asListItem().setChoiceValues(newChoices)
     }
@@ -136,7 +146,8 @@ export const handleCheckboxQuestion = (item, answersArray, configuration, questi
   const newChoices = currentChoices.filter(choice => !removeItems.includes(choice))
 
   if (newChoices.length === 0) {
-    item.asCheckboxItem().setChoiceValues([DEFAULT_BACKUP_TEXT])
+    const backupText = selectBackupText()
+    item.asCheckboxItem().setChoiceValues([backupText])
   } else {
     item.asCheckboxItem().setChoiceValues(newChoices)
   }

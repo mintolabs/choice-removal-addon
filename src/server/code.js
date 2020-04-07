@@ -22,3 +22,5 @@ global.createUser = userFunctions.createUser
 /* Configuration Functions */
 global.getConfiguration = configurationFunctions.getConfiguration
 global.updateConfiguration = configurationFunctions.updateConfiguration
+global.getBackupText = configurationFunctions.getBackupText
+global.setBackupText = configurationFunctions.setBackupText

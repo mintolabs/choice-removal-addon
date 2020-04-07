@@ -23,6 +23,7 @@ export const EMAIL_TEXTS = {
 }
 
 export const PREFIXES = {
-  QUESTION_ID: 'yace_question_',
+  QUESTION_ID: 'question_',
   OWNER: 'owner',
+  BACKUP_TEXT: 'backup_text',
 }

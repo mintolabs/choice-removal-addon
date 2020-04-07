@@ -2,8 +2,15 @@ import { all, call, put, takeLatest } from 'redux-saga/effects'
 
 import serverMethods from 'utils/serverMethods'
 import { promiseTrackerWrapped } from 'utils/promiseTracker'
-import { GET_USER_EMAIL } from './constants'
-import { getUserEmailSuccess, getUserEmailError } from './actions'
+import { GET_USER_EMAIL, GET_BACKUP_TEXT, SET_BACKUP_TEXT } from './constants'
+import {
+  getUserEmailSuccess,
+  getUserEmailError,
+  getBackupTextSuccess,
+  getBackupTextError,
+  setBackupTextSuccess,
+  setBackupTextError,
+} from './actions'
 
 function* getUserEmailSaga() {
   const { getUserEmail } = serverMethods
@@ -24,9 +31,49 @@ function* watchGetUserEmail() {
   yield takeLatest(GET_USER_EMAIL, getUserEmailSaga)
 }
 
+function* getBackupTextSaga() {
+  const { getBackupText } = serverMethods
+
+  try {
+    const data = yield call(promiseTrackerWrapped, getBackupText)
+    yield put(getBackupTextSuccess(data))
+  } catch (err) {
+    yield put(getBackupTextError(err))
+  }
+}
+
+function* watchGetBackupText() {
+  // Watches for GET_BACKUP_TEXT actions and calls getBackupTextSaga when one comes in.
+  // By using `takeLatest` only the result of the latest API call is applied.
+  // It returns task descriptor (just like fork) so we can continue execution
+  // It will be cancelled automatically on component unmount
+  yield takeLatest(GET_BACKUP_TEXT, getBackupTextSaga)
+}
+
+function* setBackupTextSaga(action) {
+  console.log(action)
+  const { setBackupText } = serverMethods
+  const { value } = action.payload
+
+  try {
+    const data = yield call(promiseTrackerWrapped, setBackupText, value)
+    yield put(setBackupTextSuccess(data))
+  } catch (err) {
+    yield put(setBackupTextError(err))
+  }
+}
+
+function* watchSetBackupText() {
+  // Watches for SET_BACKUP_TEXT actions and calls setBackupTextSaga when one comes in.
+  // By using `takeLatest` only the result of the latest API call is applied.
+  // It returns task descriptor (just like fork) so we can continue execution
+  // It will be cancelled automatically on component unmount
+  yield takeLatest(SET_BACKUP_TEXT, setBackupTextSaga)
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* rootSaga() {
-  yield all([watchGetUserEmail()])
+  yield all([watchGetUserEmail(), watchGetBackupText(), watchSetBackupText()])
 }
