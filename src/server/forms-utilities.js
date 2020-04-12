@@ -68,28 +68,18 @@ export const handleMultipleChoiceQuestion = (item, answer, configuration, questi
     return
   }
 
-  const choiceTotal = configuration[questionConfigKey].choices[answer].total
-  const choiceSelected = configuration[questionConfigKey].choices[answer].selected
+  const currentChoices = item
+    .asMultipleChoiceItem()
+    .getChoices()
+    .map(choice => choice.getValue())
 
-  if (
-    configuration[questionConfigKey].choices &&
-    configuration[questionConfigKey].choices[answer] &&
-    choiceSelected >= choiceTotal - 1
-  ) {
-    const currentChoices = item
-      .asMultipleChoiceItem()
-      .getChoices()
-      .map(choice => choice.getValue())
-    const newChoices = currentChoices.filter(choice => choice !== answer)
+  const newChoices = currentChoices.filter(choice => choice !== answer)
 
-    if (newChoices.length === 0) {
-      const backupText = selectBackupText()
-      item.asMultipleChoiceItem().setChoiceValues([backupText])
-    } else {
-      item.asMultipleChoiceItem().setChoiceValues(newChoices)
-    }
+  if (newChoices.length === 0) {
+    const backupText = selectBackupText()
+    item.asMultipleChoiceItem().setChoiceValues([backupText])
   } else {
-    // Add 1 to selected here
+    item.asMultipleChoiceItem().setChoiceValues(newChoices)
   }
 }
 
@@ -98,28 +88,18 @@ export const handleListQuestion = (item, answer, configuration, questionConfigKe
     return
   }
 
-  const choiceTotal = configuration[questionConfigKey].choices[answer].total
-  const choiceSelected = configuration[questionConfigKey].choices[answer].selected
+  const currentChoices = item
+    .asListItem()
+    .getChoices()
+    .map(choice => choice.getValue())
 
-  if (
-    configuration[questionConfigKey].choices &&
-    configuration[questionConfigKey].choices[answer] &&
-    choiceSelected >= choiceTotal - 1
-  ) {
-    const currentChoices = item
-      .asListItem()
-      .getChoices()
-      .map(choice => choice.getValue())
-    const newChoices = currentChoices.filter(choice => choice !== answer)
+  const newChoices = currentChoices.filter(choice => choice !== answer)
 
-    if (newChoices.length === 0) {
-      const backupText = selectBackupText()
-      item.asListItem().setChoiceValues([backupText])
-    } else {
-      item.asListItem().setChoiceValues(newChoices)
-    }
+  if (newChoices.length === 0) {
+    const backupText = selectBackupText()
+    item.asListItem().setChoiceValues([backupText])
   } else {
-    // Add 1 to selected here
+    item.asListItem().setChoiceValues(newChoices)
   }
 }
 
@@ -131,18 +111,14 @@ export const handleCheckboxQuestion = (item, answersArray, configuration, questi
   const removeItems = []
 
   answersArray.forEach(answer => {
-    const choiceTotal = configuration[questionConfigKey].choices[answer].total
-    const choiceSelected = configuration[questionConfigKey].choices[answer].selected
-
-    if (choiceSelected >= choiceTotal - 1) {
-      removeItems.push(answer)
-    }
+    removeItems.push(answer)
   })
 
   const currentChoices = item
     .asCheckboxItem()
     .getChoices()
     .map(choice => choice.getValue())
+
   const newChoices = currentChoices.filter(choice => !removeItems.includes(choice))
 
   if (newChoices.length === 0) {
