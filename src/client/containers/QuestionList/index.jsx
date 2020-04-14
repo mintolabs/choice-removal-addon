@@ -10,6 +10,7 @@ import { usePromiseTracker } from 'react-promise-tracker'
 import { useInjectSaga } from 'utils/injectSaga'
 import { PREFIXES } from 'config/constants'
 import Question from 'components/Question'
+import NoSupportedQuestion from 'components/NoSupportedQuestion'
 import {
   makeSelectError,
   makeSelectSupportedQuestions,
@@ -84,6 +85,39 @@ const QuestionList = () => {
     handleGetSupportedFormQuestions()
   }, [])
 
+  const renderComponent = () => {
+    if (!supportedQuestions || configuration === undefined || promiseInProgress) {
+      return <CircularProgress />
+    }
+
+    if (supportedQuestions.length === 0) {
+      return <NoSupportedQuestion />
+    }
+
+    return (
+      <div>
+        {supportedQuestions.map(question => {
+          const questionConfigKey = `${PREFIXES.QUESTION_ID}${question.id}`
+          const questionConfig = !!(
+            configuration &&
+            configuration[questionConfigKey] &&
+            configuration[questionConfigKey].enabled
+          )
+
+          return (
+            <Question
+              question={question}
+              questionConfig={questionConfig}
+              expanded={expanded}
+              handleChange={handleChange}
+              toggleSwitch={handleToggleSwitch}
+            />
+          )
+        })}
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className={classes.refreshButtonContainer}>
@@ -99,32 +133,7 @@ const QuestionList = () => {
         </Button>
       </div>
 
-      <div className={classes.root}>
-        {!supportedQuestions || configuration === undefined || promiseInProgress ? (
-          <CircularProgress />
-        ) : (
-          <div>
-            {supportedQuestions.map(question => {
-              const questionConfigKey = `${PREFIXES.QUESTION_ID}${question.id}`
-              const questionConfig = !!(
-                configuration &&
-                configuration[questionConfigKey] &&
-                configuration[questionConfigKey].enabled
-              )
-
-              return (
-                <Question
-                  question={question}
-                  questionConfig={questionConfig}
-                  expanded={expanded}
-                  handleChange={handleChange}
-                  toggleSwitch={handleToggleSwitch}
-                />
-              )
-            })}
-          </div>
-        )}
-      </div>
+      <div className={classes.root}>{renderComponent()}</div>
     </div>
   )
 }
