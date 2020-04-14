@@ -116,7 +116,7 @@ const Question = props => {
               onChange={e => toggleSwitch(e, question.id)}
             />
           }
-          label="Eliminate Choices"
+          label="Remove Choices"
         />
       </ExpansionPanelDetails>
     </ExpansionPanel>
