@@ -34,4 +34,5 @@ export const URLS = {
   FEEDBACK_FORM_URL:
     'https://docs.google.com/forms/d/e/1FAIpQLSeU5FrtO-uC8FDf-08hQo3bEezIx616j6PYTcqxXYd8DkLMAw/viewform',
   FAQ_URL: 'https://choiceremoval.jetbeaver.com/#faq_section',
+  KOFI_URL: 'https://ko-fi.com/hoang',
 }
