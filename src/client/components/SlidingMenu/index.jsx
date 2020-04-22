@@ -6,18 +6,32 @@ import { Menu, List, Settings, Help, Close } from '@material-ui/icons'
 import { grey } from '@material-ui/core/colors'
 import styled from 'styled-components'
 
-import { PATHS, TITLES } from 'config/constants'
+import { PATHS, TITLES, URLS } from 'config/constants'
 import Logo from 'components/Logo'
 import Header from 'components/Header'
 import Support from 'components/Support'
+import KofiButton from 'components/KofiButton'
 
 const useStyles = makeStyles({
   paperAnchorLeft: {
     width: '80%',
   },
+  menuWrapper: {
+    position: 'relative',
+    height: '100%',
+  },
   menuItemText: {
     marginLeft: '10px',
     fontWeight: 'bold',
+  },
+  kofiButtonWrapper: {
+    position: 'absolute',
+    bottom: '1rem',
+    width: '100%',
+    textAlign: 'center',
+  },
+  link: {
+    textDecoration: 'none',
   },
 })
 
@@ -76,7 +90,7 @@ const SlidingMenu = () => {
           paperAnchorLeft: classes.paperAnchorLeft, // `.MuiDrawer-paperAnchorLeft`
         }}
       >
-        <div>
+        <div className={classes.menuWrapper}>
           <SlidingMenuHeader>
             <Logo />
 
@@ -126,6 +140,17 @@ const SlidingMenu = () => {
               </Typography>
             </MenuItem>
           </MenuItemWrapper>
+
+          <div className={classes.kofiButtonWrapper}>
+            <a
+              className={classes.link}
+              href={URLS.KOFI_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <KofiButton />
+            </a>
+          </div>
         </div>
       </Drawer>
     </div>

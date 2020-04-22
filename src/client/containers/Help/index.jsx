@@ -6,7 +6,6 @@ import { deepPurple, grey } from '@material-ui/core/colors'
 import styled from 'styled-components'
 
 import { URLS } from 'config/constants'
-import KofiButton from 'components/KofiButton'
 
 const ColorButton = withStyles(theme => ({
   root: {
@@ -73,12 +72,6 @@ const Help = () => {
           <ColorButton startIcon={<LiveHelp />} variant="contained">
             Check our FAQ
           </ColorButton>
-        </a>
-      </div>
-
-      <div className={classes.linkWrapper}>
-        <a className={classes.link} href={URLS.KOFI_URL} target="_blank" rel="noopener noreferrer">
-          <KofiButton />
         </a>
       </div>
 
