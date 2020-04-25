@@ -1,15 +1,5 @@
-import { PREFIXES, URLS } from '../config/constants'
+import { PREFIXES } from '../config/constants'
 import { adjustFormSubmitTrigger } from '../helpers/trigger'
-
-function showMultiAccountsAlert() {
-  const ui = FormApp.getUi()
-
-  ui.alert(
-    'Multiple Accounts Detected',
-    `It's likely that you are logging in with multiple Google accounts. Can you please try to log in with 1 account only or using an Incognito Window. For more information, check the description section of our add-on here ${URLS.ADDON_URL}`,
-    ui.ButtonSet.OK
-  )
-}
 
 export const getConfiguration = () => {
   try {
@@ -25,9 +15,9 @@ export const getConfiguration = () => {
 
     return configuration
   } catch (err) {
-    console.log(err)
-    console.log(Session.getEffectiveUser().getEmail())
-    showMultiAccountsAlert()
+    console.error(err)
+    console.error(Session.getEffectiveUser().getEmail())
+
     return false
   }
 }
