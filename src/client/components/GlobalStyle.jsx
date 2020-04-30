@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a > svg {
-    width: 100%;
+    width: 90%;
   }
 `
 

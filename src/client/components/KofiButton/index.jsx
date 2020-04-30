@@ -1,6 +1,6 @@
 import React from 'react'
 
-import KofiSvg from 'icons/BuyMeACoffee.svg'
+import KofiSvg from 'icons/Kofi.svg'
 
 const KofiButton = () => {
   return <KofiSvg height={40} />
