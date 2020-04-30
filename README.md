@@ -1,13 +1,15 @@
 # Choice Removal
 
-Private project that extends Google Forms
+This add-on helps users manage appointment slots.
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F5191YL)
 
 ## Installation
 
 1. Clone the sample project and install dependencies:
 
 ```shell
-git clone https://gitlab.com/piavgh/choice-removal-addon.git
+git clone https://github.com/piavgh/choice-removal-addon.git
 cd choice-removal-addon
 yarn install
 ```
