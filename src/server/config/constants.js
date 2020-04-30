@@ -15,7 +15,7 @@ export const USER_STATUSES = {
 
 export const DEFAULT_BACKUP_TEXT = 'No options left'
 
-export const SUPPORT_EMAIL = 'yaceteam@gmail.com'
+export const SUPPORT_EMAIL = 'choiceremovalteam@gmail.com'
 
 export const EMAIL_TEXTS = {
   WELCOME_EMAIL_SUBJECT:
