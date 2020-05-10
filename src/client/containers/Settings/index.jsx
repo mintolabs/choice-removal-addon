@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import { CircularProgress, TextField, Button } from '@material-ui/core'
@@ -8,6 +8,7 @@ import { createStructuredSelector } from 'reselect'
 import { useSelector, useDispatch } from 'react-redux'
 import { usePromiseTracker } from 'react-promise-tracker'
 
+import ConfirmDialog from 'components/ConfirmDialog'
 import { useInjectReducer } from 'store/configuration/injectReducer'
 import { useInjectSaga } from 'utils/injectSaga'
 import { makeSelectUserEmail, makeSelectBackupText, makeSelectError } from './selectors'
@@ -122,6 +123,7 @@ const Settings = () => {
   const classes = useStyles()
 
   const { userEmail, backupText } = useSelector(stateSelector)
+  const [isOpen, setIsOpen] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -137,6 +139,14 @@ const Settings = () => {
 
   const handleChangeBackupText = event => {
     dispatch(changeBackupText(event.target.value))
+  }
+
+  const handleOpenConfirmDialog = () => {
+    setIsOpen(true)
+  }
+
+  const handleCloseConfirmDialog = () => {
+    setIsOpen(false)
   }
 
   const handleRestoreAllOptions = () => {
@@ -179,11 +189,21 @@ const Settings = () => {
               className={classes.restoreAllOptionsButton}
               aria-label="restore"
               startIcon={<Restore />}
-              onClick={handleRestoreAllOptions}
+              onClick={handleOpenConfirmDialog}
               disabled={promiseInProgress}
             >
               Restore All Options
             </Button>
+            <ConfirmDialog
+              title="Restore All Options?"
+              content={`This will restore all options belong to all questions that you configured with ${process.env.ADDON_NAME}. Are you sure?`}
+              isOpen={isOpen}
+              handleCancel={handleCloseConfirmDialog}
+              handleOK={() => {
+                handleRestoreAllOptions()
+                handleCloseConfirmDialog()
+              }}
+            />
           </div>
 
           <div className={classes.backupTextSection}>
