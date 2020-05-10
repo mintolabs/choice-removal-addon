@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
-import { CircularProgress, TextField, Button } from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core'
 import { Restore, SaveOutlined } from '@material-ui/icons'
 import { deepPurple, grey } from '@material-ui/core/colors'
 import { createStructuredSelector } from 'reselect'
 import { useSelector, useDispatch } from 'react-redux'
 import { usePromiseTracker } from 'react-promise-tracker'
 
+import LoadingIndicator from 'components/LoadingIndicator'
 import ConfirmDialog from 'components/ConfirmDialog'
 import { useInjectReducer } from 'store/configuration/injectReducer'
 import { useInjectSaga } from 'utils/injectSaga'
@@ -165,10 +166,12 @@ const Settings = () => {
     handleGetBackupText()
   }, [])
 
+  const showLoadingIndicator = userEmail === null || backupText === null || promiseInProgress
+
   return (
     <div className={classes.root}>
-      {userEmail === null || backupText === null || promiseInProgress ? (
-        <CircularProgress />
+      {showLoadingIndicator ? (
+        <LoadingIndicator open={showLoadingIndicator} />
       ) : (
         <div className={classes.wrapper}>
           <div className={classes.infoSection}>
