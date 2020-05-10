@@ -1,8 +1,8 @@
 // Use ES6/7 code
-import { DEFAULT_BACKUP_TEXT, PREFIXES } from './config/constants'
+import { PREFIXES } from './config/constants'
 import { sendReauthorizationRequest, sendWelcomeEmail } from './helpers/mail'
 import { createUser } from './models/user'
-import { getConfiguration } from './models/configuration'
+import { getConfiguration, selectBackupText } from './models/configuration'
 
 export const onOpen = e => {
   const menu = FormApp.getUi().createAddonMenu()
@@ -54,13 +54,6 @@ export const getSupportedFormQuestions = () => {
       title: item.getTitle(),
       type: item.getType(),
     }))
-}
-
-export const selectBackupText = () => {
-  const documentProperties = PropertiesService.getDocumentProperties()
-  const backupText = documentProperties.getProperty(PREFIXES.BACKUP_TEXT) || DEFAULT_BACKUP_TEXT
-
-  return backupText
 }
 
 export const handleMultipleChoiceQuestion = (item, answer, configuration, questionConfigKey) => {
