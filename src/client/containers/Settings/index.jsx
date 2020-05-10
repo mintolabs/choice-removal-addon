@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import { CircularProgress, TextField, Button } from '@material-ui/core'
-import { SaveOutlined } from '@material-ui/icons'
+import { Restore, SaveOutlined } from '@material-ui/icons'
 import { deepPurple, grey } from '@material-ui/core/colors'
 import { createStructuredSelector } from 'reselect'
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,7 +11,13 @@ import { usePromiseTracker } from 'react-promise-tracker'
 import { useInjectReducer } from 'store/configuration/injectReducer'
 import { useInjectSaga } from 'utils/injectSaga'
 import { makeSelectUserEmail, makeSelectBackupText, makeSelectError } from './selectors'
-import { getUserEmail, getBackupText, changeBackupText, setBackupText } from './actions'
+import {
+  getUserEmail,
+  getBackupText,
+  restoreAllOptions,
+  changeBackupText,
+  setBackupText,
+} from './actions'
 import reducer from './reducer'
 import saga from './saga'
 
@@ -64,6 +70,18 @@ const useStyles = makeStyles(() => ({
     fontWeight: '500',
   },
   email: {
+    color: deepPurple[500],
+  },
+  restoreOptionsSection: {
+    borderBottom: `1px solid ${grey[500]}`,
+    paddingTop: '1.5rem',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+    paddingBottom: '1.5rem',
+    margin: '0 auto',
+    textAlign: 'center',
+  },
+  restoreAllOptionsButton: {
     color: deepPurple[500],
   },
   backupTextSection: {
@@ -121,6 +139,10 @@ const Settings = () => {
     dispatch(changeBackupText(event.target.value))
   }
 
+  const handleRestoreAllOptions = () => {
+    dispatch(restoreAllOptions())
+  }
+
   const handleSetBackupText = () => {
     dispatch(setBackupText(backupText))
   }
@@ -149,6 +171,19 @@ const Settings = () => {
               <div>Email:</div>
               <div>{userEmail}</div>
             </div>
+          </div>
+
+          <div className={classes.restoreOptionsSection}>
+            <Button
+              variant="outlined"
+              className={classes.restoreAllOptionsButton}
+              aria-label="restore"
+              startIcon={<Restore />}
+              onClick={handleRestoreAllOptions}
+              disabled={promiseInProgress}
+            >
+              Restore All Options
+            </Button>
           </div>
 
           <div className={classes.backupTextSection}>
