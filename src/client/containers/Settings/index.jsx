@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
-import { CircularProgress, TextField, Button } from '@material-ui/core'
-import { SaveOutlined } from '@material-ui/icons'
+import { TextField, Button } from '@material-ui/core'
+import { Restore, SaveOutlined } from '@material-ui/icons'
 import { deepPurple, grey } from '@material-ui/core/colors'
 import { createStructuredSelector } from 'reselect'
 import { useSelector, useDispatch } from 'react-redux'
 import { usePromiseTracker } from 'react-promise-tracker'
 
+import LoadingIndicator from 'components/LoadingIndicator'
+import ConfirmDialog from 'components/ConfirmDialog'
 import { useInjectReducer } from 'store/configuration/injectReducer'
 import { useInjectSaga } from 'utils/injectSaga'
 import { makeSelectUserEmail, makeSelectBackupText, makeSelectError } from './selectors'
-import { getUserEmail, getBackupText, changeBackupText, setBackupText } from './actions'
+import {
+  getUserEmail,
+  getBackupText,
+  restoreAllOptions,
+  changeBackupText,
+  setBackupText,
+} from './actions'
 import reducer from './reducer'
 import saga from './saga'
 
@@ -66,6 +74,18 @@ const useStyles = makeStyles(() => ({
   email: {
     color: deepPurple[500],
   },
+  restoreOptionsSection: {
+    borderBottom: `1px solid ${grey[500]}`,
+    paddingTop: '1.5rem',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+    paddingBottom: '1.5rem',
+    margin: '0 auto',
+    textAlign: 'center',
+  },
+  restoreAllOptionsButton: {
+    color: deepPurple[500],
+  },
   backupTextSection: {
     paddingTop: '1rem',
     paddingLeft: '10px',
@@ -104,6 +124,7 @@ const Settings = () => {
   const classes = useStyles()
 
   const { userEmail, backupText } = useSelector(stateSelector)
+  const [isOpen, setIsOpen] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -121,6 +142,18 @@ const Settings = () => {
     dispatch(changeBackupText(event.target.value))
   }
 
+  const handleOpenConfirmDialog = () => {
+    setIsOpen(true)
+  }
+
+  const handleCloseConfirmDialog = () => {
+    setIsOpen(false)
+  }
+
+  const handleRestoreAllOptions = () => {
+    dispatch(restoreAllOptions())
+  }
+
   const handleSetBackupText = () => {
     dispatch(setBackupText(backupText))
   }
@@ -133,10 +166,12 @@ const Settings = () => {
     handleGetBackupText()
   }, [])
 
+  const showLoadingIndicator = userEmail === null || backupText === null || promiseInProgress
+
   return (
     <div className={classes.root}>
-      {userEmail === null || backupText === null || promiseInProgress ? (
-        <CircularProgress />
+      {showLoadingIndicator ? (
+        <LoadingIndicator open={showLoadingIndicator} />
       ) : (
         <div className={classes.wrapper}>
           <div className={classes.infoSection}>
@@ -149,6 +184,29 @@ const Settings = () => {
               <div>Email:</div>
               <div>{userEmail}</div>
             </div>
+          </div>
+
+          <div className={classes.restoreOptionsSection}>
+            <Button
+              variant="outlined"
+              className={classes.restoreAllOptionsButton}
+              aria-label="restore"
+              startIcon={<Restore />}
+              onClick={handleOpenConfirmDialog}
+              disabled={promiseInProgress}
+            >
+              Restore All Options
+            </Button>
+            <ConfirmDialog
+              title="Restore All Options?"
+              content={`This will restore all options belong to all questions that you configured with ${process.env.ADDON_NAME}. Are you sure?`}
+              isOpen={isOpen}
+              handleCancel={handleCloseConfirmDialog}
+              handleOK={() => {
+                handleRestoreAllOptions()
+                handleCloseConfirmDialog()
+              }}
+            />
           </div>
 
           <div className={classes.backupTextSection}>

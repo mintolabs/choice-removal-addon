@@ -17,6 +17,10 @@ export const GET_BACKUP_TEXT = 'choice-removal/Settings/GET_BACKUP_TEXT'
 export const GET_BACKUP_TEXT_SUCCESS = 'choice-removal/Settings/GET_BACKUP_TEXT_SUCCESS'
 export const GET_BACKUP_TEXT_ERROR = 'choice-removal/Settings/GET_BACKUP_TEXT_ERROR'
 
+export const RESTORE_ALL_OPTIONS = 'choice-removal/Settings/RESTORE_ALL_OPTIONS'
+export const RESTORE_ALL_OPTIONS_SUCCESS = 'choice-removal/Settings/RESTORE_ALL_OPTIONS_SUCCESS'
+export const RESTORE_ALL_OPTIONS_ERROR = 'choice-removal/Settings/RESTORE_ALL_OPTIONS_ERROR'
+
 export const CHANGE_BACKUP_TEXT = 'choice-removal/Settings/CHANGE_BACKUP_TEXT'
 
 export const SET_BACKUP_TEXT = 'choice-removal/Settings/SET_BACKUP_TEXT'

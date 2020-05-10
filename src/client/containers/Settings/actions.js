@@ -22,6 +22,9 @@ import {
   GET_BACKUP_TEXT,
   GET_BACKUP_TEXT_SUCCESS,
   GET_BACKUP_TEXT_ERROR,
+  RESTORE_ALL_OPTIONS,
+  RESTORE_ALL_OPTIONS_SUCCESS,
+  RESTORE_ALL_OPTIONS_ERROR,
   CHANGE_BACKUP_TEXT,
   SET_BACKUP_TEXT,
   SET_BACKUP_TEXT_SUCCESS,
@@ -59,6 +62,21 @@ export const getBackupTextSuccess = data => ({
 
 export const getBackupTextError = err => ({
   type: GET_BACKUP_TEXT_ERROR,
+  payload: {
+    error: err,
+  },
+})
+
+export const restoreAllOptions = () => ({
+  type: RESTORE_ALL_OPTIONS,
+})
+
+export const restoreAllOptionsSuccess = () => ({
+  type: RESTORE_ALL_OPTIONS_SUCCESS,
+})
+
+export const restoreAllOptionsError = err => ({
+  type: RESTORE_ALL_OPTIONS_ERROR,
   payload: {
     error: err,
   },

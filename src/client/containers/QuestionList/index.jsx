@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Button, CircularProgress } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { Refresh } from '@material-ui/icons'
 import { deepPurple } from '@material-ui/core/colors'
 import { createStructuredSelector } from 'reselect'
@@ -9,6 +9,7 @@ import { usePromiseTracker } from 'react-promise-tracker'
 
 import { useInjectSaga } from 'utils/injectSaga'
 import { PREFIXES } from 'config/constants'
+import LoadingIndicator from 'components/LoadingIndicator'
 import Question from 'components/Question'
 import NoSupportedQuestion from 'components/NoSupportedQuestion'
 import {
@@ -86,8 +87,11 @@ const QuestionList = () => {
   }, [])
 
   const renderComponent = () => {
-    if (!supportedQuestions || configuration === undefined || promiseInProgress) {
-      return <CircularProgress />
+    const showLoadingIndicator =
+      !supportedQuestions || configuration === undefined || promiseInProgress
+
+    if (showLoadingIndicator) {
+      return <LoadingIndicator open={showLoadingIndicator} />
     }
 
     if (supportedQuestions.length === 0) {
