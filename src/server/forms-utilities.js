@@ -132,6 +132,9 @@ export const handleCheckboxQuestion = (item, answersArray, configuration, questi
  * @return {boolean}
  */
 export const respondToFormSubmit = e => {
+  const userEmail = Session.getEffectiveUser().getEmail()
+  console.log(`Start respondToFormSubmit for user ${userEmail}`)
+
   const authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL)
 
   // Check if the actions of the trigger require authorizations that have not
@@ -194,6 +197,8 @@ export const respondToFormSubmit = e => {
   } catch (err) {
     console.error(err)
   }
+
+  console.log(`Finish respondToFormSubmit for user ${userEmail}`)
 
   return true
 }
