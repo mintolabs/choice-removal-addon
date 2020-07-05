@@ -7,9 +7,6 @@ import {
   GET_BACKUP_TEXT,
   GET_BACKUP_TEXT_SUCCESS,
   GET_BACKUP_TEXT_ERROR,
-  RESTORE_ALL_OPTIONS,
-  RESTORE_ALL_OPTIONS_SUCCESS,
-  RESTORE_ALL_OPTIONS_ERROR,
   CHANGE_BACKUP_TEXT,
   SET_BACKUP_TEXT,
   SET_BACKUP_TEXT_SUCCESS,
@@ -53,18 +50,6 @@ const reducer = (state = initialState, action) =>
 
       case GET_BACKUP_TEXT_ERROR:
         draft.backupText = initialState.backupText
-        draft.error = action.payload.error
-        break
-
-      case RESTORE_ALL_OPTIONS:
-        draft.error = initialState.error
-        break
-
-      case RESTORE_ALL_OPTIONS_SUCCESS:
-        draft.error = initialState.error
-        break
-
-      case RESTORE_ALL_OPTIONS_ERROR:
         draft.error = action.payload.error
         break
 

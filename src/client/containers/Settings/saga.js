@@ -2,7 +2,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects'
 
 import serverMethods from 'utils/serverMethods'
 import { promiseTrackerWrapped } from 'utils/promiseTracker'
-import { GET_USER_EMAIL, GET_BACKUP_TEXT, SET_BACKUP_TEXT, RESTORE_ALL_OPTIONS } from './constants'
+import { GET_USER_EMAIL, GET_BACKUP_TEXT, SET_BACKUP_TEXT } from './constants'
 import {
   getUserEmailSuccess,
   getUserEmailError,
@@ -10,8 +10,6 @@ import {
   getBackupTextError,
   setBackupTextSuccess,
   setBackupTextError,
-  restoreAllOptionsSuccess,
-  restoreAllOptionsError,
 } from './actions'
 
 function* getUserEmailSaga() {
@@ -72,33 +70,9 @@ function* watchSetBackupText() {
   yield takeLatest(SET_BACKUP_TEXT, setBackupTextSaga)
 }
 
-function* restoreAllOptionsSaga() {
-  const { restoreAllOptions } = serverMethods
-
-  try {
-    yield call(promiseTrackerWrapped, restoreAllOptions)
-    yield put(restoreAllOptionsSuccess())
-  } catch (err) {
-    yield put(restoreAllOptionsError(err))
-  }
-}
-
-function* watchRestoreAllOptions() {
-  // Watches for RESTORE_ALL_OPTIONS actions and calls restoreAllOptionsSaga when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
-  yield takeLatest(RESTORE_ALL_OPTIONS, restoreAllOptionsSaga)
-}
-
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* rootSaga() {
-  yield all([
-    watchGetUserEmail(),
-    watchGetBackupText(),
-    watchSetBackupText(),
-    watchRestoreAllOptions(),
-  ])
+  yield all([watchGetUserEmail(), watchGetBackupText(), watchSetBackupText()])
 }
