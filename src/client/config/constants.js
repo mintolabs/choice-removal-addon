@@ -1,11 +1,13 @@
 export const PATHS = {
   QUESTION_LIST: '/',
+  BACKUP_RESTORE: '/backup-restore',
   SETTINGS: '/settings',
   HELP: '/help',
 }
 
 export const TITLES = {
   QUESTION_LIST: 'Question List',
+  BACKUP_RESTORE: 'Backup / Restore',
   SETTINGS: 'Settings',
   HELP: 'Help',
 }

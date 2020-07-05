@@ -5,6 +5,7 @@ import { PATHS } from 'config/constants'
 
 import SlidingMenu from 'components/SlidingMenu'
 import QuestionList from 'containers/QuestionList'
+import BackupRestore from 'containers/BackupRestore'
 import Settings from 'containers/Settings'
 import Help from 'containers/Help'
 
@@ -18,6 +19,7 @@ const Configuration = () => {
       <Redirect to={PATHS.QUESTION_LIST} />
       <RouterSwitch>
         <Route path={PATHS.QUESTION_LIST} exact render={() => <QuestionList />} />
+        <Route path={PATHS.BACKUP_RESTORE} exact render={() => <BackupRestore />} />
         <Route path={PATHS.SETTINGS} exact render={() => <Settings />} />
         <Route path={PATHS.HELP} exact component={Help} />
       </RouterSwitch>

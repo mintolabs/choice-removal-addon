@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Drawer, IconButton, Typography } from '@material-ui/core'
-import { Menu, List, Settings, Help, Close } from '@material-ui/icons'
+import { Menu, List, SettingsBackupRestore, Settings, Help, Close } from '@material-ui/icons'
 import { grey } from '@material-ui/core/colors'
 import styled from 'styled-components'
 
@@ -109,6 +109,20 @@ const SlidingMenu = () => {
                 }}
               >
                 {TITLES.QUESTION_LIST}
+              </Typography>
+            </MenuItem>
+          </MenuItemWrapper>
+
+          <MenuItemWrapper>
+            <MenuItem to={PATHS.BACKUP_RESTORE} onClick={toggleDrawer(false)}>
+              <SettingsBackupRestore />
+              <Typography
+                variant="body1"
+                classes={{
+                  body1: classes.menuItemText,
+                }}
+              >
+                {TITLES.BACKUP_RESTORE}
               </Typography>
             </MenuItem>
           </MenuItemWrapper>
